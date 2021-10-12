@@ -1,6 +1,7 @@
 import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { FormControl, FormLabel, Input, Stack, Button } from '@chakra-ui/react';
 import { useSession } from 'next-auth/react';
+import Router from 'next/router';
 
 function Questionario() {
   const { data: session, status } = useSession();
@@ -30,13 +31,19 @@ function Questionario() {
 
     console.log('submitting');
 
-    const response = fetch('http://localhost:3000/api/update-userinfo', {
+    const response = await fetch('http://localhost:3000/api/update-userinfo', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(medicoDTO),
     });
+
+    if (response.status === 200) {
+      if (response.status === 200) {
+        Router.push('/');
+      }
+    }
   };
 
   return (

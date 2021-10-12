@@ -12,6 +12,7 @@ import {
   InputRightAddon,
 } from '@chakra-ui/react';
 import { useSession } from 'next-auth/react';
+import Router from 'next/router';
 
 type Paciente = {
   nome: string;
@@ -61,13 +62,17 @@ function Questionario() {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const response = fetch('http://localhost:3000/api/update-userinfo', {
+    const response = await fetch('http://localhost:3000/api/update-userinfo', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(pacienteDTO),
     });
+
+    if (response.status === 200) {
+      Router.push('/');
+    }
   };
 
   return (
