@@ -3,6 +3,7 @@ import { GetServerSideProps } from 'next';
 import PageWrapper from '@components/PageWrapper';
 import HeaderMedico from '@components/Medico/Header';
 import PacientesTable from '@components/Paciente/Table';
+import { getSession } from 'next-auth/react';
 
 const dummyItems = [
   {
@@ -50,6 +51,16 @@ const Home = ({ medico }) => {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   // check for session etc
+  const session = await getSession(context);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: true,
+      },
+    };
+  }
 
   // redirect to /login if !session
 

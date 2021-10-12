@@ -20,7 +20,7 @@
       "@utils/*": ["utils/*"],
       "@theme": ["theme/index.ts"],
       "@theme/*": ["theme/*"],
-      "@config": ["config/index.ts"]
+      "@config/*": ["config/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
