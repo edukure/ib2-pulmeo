@@ -8,6 +8,7 @@ function PageWrapper({ children, justifyContent = 'flex-start' }) {
       justifyContent={justifyContent}
       minHeight="100vh"
       bg="gray.200"
+      px={4}
     >
       {children}
     </Flex>

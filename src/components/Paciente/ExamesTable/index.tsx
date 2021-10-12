@@ -4,7 +4,7 @@ import Link from '@components/Link';
 
 function ExamesTable({ exames, idPaciente }) {
   return (
-    <Table bg="white" maxW="container.md" w="100%" rounded="lg">
+    <Table bg="white" maxW="container.md" w="100%" rounded="lg" mb={8}>
       <Thead>
         <Tr>
           <Th>tipo</Th>

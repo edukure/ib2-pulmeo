@@ -4,6 +4,7 @@ import PageWrapper from '@components/PageWrapper';
 import HeaderMedico from '@components/Medico/Header';
 import PacientesTable from '@components/Paciente/Table';
 import { getSession } from 'next-auth/react';
+import { connectToDatabase } from '@config/mongodb';
 
 const dummyItems = [
   {
@@ -62,16 +63,41 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     };
   }
 
-  // redirect to /login if !session
+  const { db } = await connectToDatabase();
 
-  return {
-    props: {
-      medico: {
-        nome: 'Dra. Carol',
-        crm: '238323',
+  const { _id, ...user } = await db
+    .collection('users')
+    .aggregate([
+      {
+        $match: {
+          email: session.user.email,
+        },
       },
-    },
-  };
+      {
+        // retornar apenas name e user
+        $project: {
+          emailVerified: 0,
+        },
+      },
+    ])
+    .next();
+
+  if (user.role === 'medico') {
+    return {
+      props: {
+        medico: { ...user, id: _id.toString() },
+      },
+    };
+  }
+
+  if (user.role === 'paciente') {
+    return {
+      redirect: {
+        destination: `/pacientes/${_id}`,
+        permanent: true,
+      },
+    };
+  }
 };
 
 export default Home;

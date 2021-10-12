@@ -13,16 +13,18 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   const { db } = await connectToDatabase();
-  const { userId } = await db.collection('sessions').findOne({
-    email: userInfo.email,
+  const user = await db.collection('users').findOne({
+    email: session.user.email,
   });
 
-  if (!userId) {
+  const { _id } = user;
+
+  if (!_id) {
     return res.status(404).json({ message: 'user not found' });
   }
 
   await db.collection('users').updateOne(
-    { _id: userId },
+    { _id: _id },
     {
       $set: {
         ...userInfo,

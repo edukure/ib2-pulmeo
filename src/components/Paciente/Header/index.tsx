@@ -26,10 +26,10 @@ import {
 function Header({
   nome,
   idade,
-  foto,
+  image,
   email = 'email@gmail.com',
-  fumante = false,
-  covid = true,
+  fumante,
+  teveCovid,
   doencaRespiratoria = '',
 }) {
   return (
@@ -66,7 +66,7 @@ function Header({
           spacing={{ base: 2, sm: 4 }}
         >
           <Avatar
-            src={foto}
+            src={image}
             size="2xl"
             borderWidth={4}
             borderColor="white"
@@ -93,7 +93,7 @@ function Header({
               <Td textAlign="center">
                 <Text>{fumante ? 'sim' : 'não'}</Text>
               </Td>
-              <Td textAlign="center">{covid ? 'sim' : 'não'}</Td>
+              <Td textAlign="center">{teveCovid ? 'sim' : 'não'}</Td>
               <Td textAlign="center">{doencaRespiratoria || 'nenhuma'}</Td>
             </Tr>
             <Tr></Tr>
