@@ -1,5 +1,5 @@
-import { Button } from '@chakra-ui/button';
-import { Container, Flex, Text, VStack } from '@chakra-ui/layout';
+import { Container, Flex, Box, VStack, Image, Button } from '@chakra-ui/react';
+import { signIn } from 'next-auth/react';
 
 function LoginForm() {
   return (
@@ -8,12 +8,13 @@ function LoginForm() {
       w="100%"
       justify="center"
       flex={1}
-      bgGradient="linear(to-b, teal.500, teal.900)"
+      bg="gray.200"
     >
       <Flex
         rounded={{ base: 'initial', sm: 'lg' }}
         w={{ base: '100%', sm: 'auto' }}
-        background="teal.300"
+        h={{ base: '100vh', sm: 'auto' }}
+        background="#C9E5E6"
         overflow="hidden"
       >
         <Container textAlign="center" maxW="container.sm">
@@ -21,40 +22,26 @@ function LoginForm() {
             alignItems="center"
             justify="center"
             flexDirection="column"
-            spacing={8}
+            spacing={16}
             h="full"
             px={12}
-            py={6}
+            py={8}
           >
-            <Text color="white" fontWeight="bold" fontSize="24px">
-              Bem Vindo
-            </Text>
-
             {/* LOGO */}
-            <Text color="white" fontWeight="bold" fontSize="24px">
-              LOGO
-            </Text>
+            <Image src="/pulmeo-logo.png" width="250px" alt="logo pulmeo" />
 
-            {/* texto PULMEO */}
-            <Text color="white" fontWeight="bold" fontSize="24px">
-              PULMEO
-            </Text>
-
-            <VStack spacing={2}>
+            <Box>
               <Button
                 // leftIcon={<GithubIcon />}
                 background="teal.500"
                 color="white"
                 _hover={{ opacity: 0.6 }}
                 fontWeight="normal"
-                // onClick={() => signIn('github')}
+                onClick={() => signIn('google')}
               >
                 entrar com Google
               </Button>
-              {/* <Button variant="ghost" fontWeight="normal" color="gray.300">
-                entrar como visitante
-              </Button> */}
-            </VStack>
+            </Box>
           </VStack>
         </Container>
       </Flex>

@@ -1,13 +1,11 @@
 import { Flex } from '@chakra-ui/react';
 
-function PageWrapper({ children }) {
+function PageWrapper({ children, justifyContent = 'flex-start' }) {
   return (
     <Flex
-      px={{ base: 4, md: 0 }}
-      pb={8}
       direction="column"
       alignItems="center"
-      justifyContent="flex-start"
+      justifyContent={justifyContent}
       minHeight="100vh"
       bg="gray.200"
     >
