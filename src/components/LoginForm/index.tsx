@@ -1,7 +1,7 @@
 import { Button } from '@chakra-ui/button';
 import { Container, Flex, Text, VStack } from '@chakra-ui/layout';
 
-const SignIn = () => {
+function LoginForm() {
   return (
     <Flex
       alignItems={{ base: 'start', sm: 'center' }}
@@ -60,6 +60,6 @@ const SignIn = () => {
       </Flex>
     </Flex>
   );
-};
+}
 
-export default SignIn;
+export default LoginForm;
