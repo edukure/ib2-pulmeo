@@ -5,6 +5,7 @@ import HeaderMedico from '@components/Medico/Header';
 import PacientesTable from '@components/Paciente/Table';
 import { getSession } from 'next-auth/react';
 import { connectToDatabase } from '@config/mongodb';
+import { getUserFromSession } from '@utils/db';
 
 const dummyItems = [
   {
@@ -63,29 +64,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     };
   }
 
-  const { db } = await connectToDatabase();
-
-  const { _id, ...user } = await db
-    .collection('users')
-    .aggregate([
-      {
-        $match: {
-          email: session.user.email,
-        },
-      },
-      {
-        // retornar apenas name e user
-        $project: {
-          emailVerified: 0,
-        },
-      },
-    ])
-    .next();
+  const user = await getUserFromSession(session);
 
   if (user.role === 'medico') {
     return {
       props: {
-        medico: { ...user, id: _id.toString() },
+        medico: user,
       },
     };
   }
@@ -93,7 +77,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   if (user.role === 'paciente') {
     return {
       redirect: {
-        destination: `/pacientes/${_id}`,
+        destination: `/pacientes/${user.id}`,
         permanent: true,
       },
     };

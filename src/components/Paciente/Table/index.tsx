@@ -1,10 +1,20 @@
-import { Table, Thead, Tr, Th, Tbody, Td, Avatar, HStack, Text } from '@chakra-ui/react';
+import {
+  Table,
+  Thead,
+  Tr,
+  Th,
+  Tbody,
+  Td,
+  Avatar,
+  HStack,
+  Text,
+} from '@chakra-ui/react';
 
 import Link from '@components/Link';
 
 function PacientesTable({ pacientes }) {
   return (
-    <Table bg="white" maxW="container.md" w="100%" rounded="lg">
+    <Table bg="white" maxW="container.md" w="100%" rounded="lg" mb={8}>
       <Thead>
         <Tr>
           <Th>paciente</Th>

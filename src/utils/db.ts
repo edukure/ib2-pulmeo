@@ -3,7 +3,7 @@ import { connectToDatabase } from '@config/mongodb';
 export const getUserFromSession = async (session) => {
   const { db } = await connectToDatabase();
 
-  const { _id, ...user } = await db
+  const { _id, ...rest } = await db
     .collection('users')
     .aggregate([
       {
@@ -19,7 +19,11 @@ export const getUserFromSession = async (session) => {
     ])
     .next();
 
-  return { id: _id.toString(), ...user };
+  const user: Partial<{ id: string; role: 'paciente' | 'medico' }> = {
+    id: _id.toString(),
+    ...rest,
+  };
+  return user;
 };
 
 export const isResposibleFor = async (session, patientId) => {

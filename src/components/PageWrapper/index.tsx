@@ -1,4 +1,5 @@
 import { Flex } from '@chakra-ui/react';
+import { signOut } from 'next-auth/react';
 
 function PageWrapper({ children, justifyContent = 'flex-start' }) {
   return (
@@ -10,6 +11,7 @@ function PageWrapper({ children, justifyContent = 'flex-start' }) {
       bg="gray.200"
       px={4}
     >
+      <button onClick={() => signOut()}> deslogar</button>
       {children}
     </Flex>
   );

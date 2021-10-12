@@ -3,12 +3,17 @@ import { FormControl, FormLabel, Input, Stack, Button } from '@chakra-ui/react';
 import { useSession } from 'next-auth/react';
 import Router from 'next/router';
 
+import Medico from '@utils/models/Medico';
+
+type DTO = Pick<Medico, 'nome' | 'crm' | 'role'>;
+
 function Questionario() {
   const { data: session, status } = useSession();
 
-  const [medicoInfo, setMedicoInfo] = useState({
+  const [medicoInfo, setMedicoInfo] = useState<DTO>({
     nome: session.user.name,
     crm: '',
+    role: 'medico',
   });
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -18,12 +23,6 @@ function Questionario() {
       ...medicoInfo,
       [fieldName]: event.target.value,
     });
-  };
-
-  const medicoDTO = {
-    role: 'medico',
-    nome: medicoInfo.nome,
-    crm: medicoInfo.crm,
   };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -36,7 +35,7 @@ function Questionario() {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(medicoDTO),
+      body: JSON.stringify(medicoInfo),
     });
 
     if (response.status === 200) {
