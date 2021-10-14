@@ -2,12 +2,11 @@ import { GetServerSideProps } from 'next';
 import { getSession } from 'next-auth/react';
 import { getUserFromSession, pegarPacientes } from '@utils/db';
 
-import { Button } from '@chakra-ui/react';
+import { Button, Flex, Stack } from '@chakra-ui/react';
 
 import PageWrapper from '@components/PageWrapper';
 import HeaderMedico from '@components/Medico/Header';
 import PacientesTable from '@components/Paciente/Table';
-import { useState } from 'react';
 
 const dummyItems = [
   {
@@ -41,10 +40,6 @@ const dummyItems = [
 ];
 
 const Home = ({ medico }) => {
-  const [teste, setTeste] = useState(() => null || []);
-  console.log('teste', teste);
-
-  console.log(medico);
   const handleAssociar = async () => {
     console.log('cliou');
     await fetch('http://localhost:3000/api/medico/associar-paciente', {
@@ -58,16 +53,20 @@ const Home = ({ medico }) => {
 
   return (
     <PageWrapper>
-      {/*  cabeçalho com info do médico */}
-      <HeaderMedico medico={medico} />
+      <Stack w="full" spacing={8}>
+        {/*  cabeçalho com info do médico */}
+        <HeaderMedico medico={medico} />
 
-      <Button colorScheme="teal" onClick={handleAssociar}>
-        Associar Paciente
-      </Button>
+        <Flex mb={8} justifyContent="center" w="full">
+          <Button colorScheme="teal" onClick={handleAssociar}>
+            Buscar Paciente
+          </Button>
+        </Flex>
 
-      {/*  listagem dos pacientes */}
-      {/* <PacientesList pacientes={dummyItems} /> */}
-      <PacientesTable pacientes={medico.pacientes} />
+        {/*  listagem dos pacientes */}
+        {/* <PacientesList pacientes={dummyItems} /> */}
+        <PacientesTable pacientes={medico.pacientes} />
+      </Stack>
     </PageWrapper>
   );
 };

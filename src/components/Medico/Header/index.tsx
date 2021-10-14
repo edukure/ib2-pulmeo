@@ -12,7 +12,7 @@ function Header({ medico }) {
   return (
     <Container
       maxW="container.md"
-      my={8}
+      mt={8}
       overflow="hidden"
       bg="white"
       p={0}

@@ -1,6 +1,6 @@
 import React from 'react';
 import { GetServerSideProps } from 'next';
-import { VStack } from '@chakra-ui/react';
+import { Stack, VStack } from '@chakra-ui/react';
 
 import PageWrapper from '@components/PageWrapper';
 import HeaderPaciente from '@components/Paciente/Header';
@@ -17,15 +17,17 @@ import {
 function PacientesPage({ paciente, role }) {
   return (
     <PageWrapper>
-      {/*  cabeçalho com info do paciente */}
-      <HeaderPaciente {...paciente} />
+      <Stack w="full" spacing={8}>
+        {/*  cabeçalho com info do paciente */}
+        <HeaderPaciente {...paciente} />
 
-      {/*  Realizar novo exame oximetria ou espirometria */}
-      {/*  renderizar condicionalmente se é paciente ou nao */}
-      {role === 'paciente' && <NovoExame />}
+        {/*  Realizar novo exame oximetria ou espirometria */}
+        {/*  renderizar condicionalmente se é paciente ou nao */}
+        {role === 'paciente' && <NovoExame />}
 
-      {/*  listagem dos exames */}
-      <ExamesTable exames={paciente.exames} idPaciente={paciente.id} />
+        {/*  listagem dos exames */}
+        <ExamesTable exames={paciente.exames} idPaciente={paciente.id} />
+      </Stack>
     </PageWrapper>
   );
 }

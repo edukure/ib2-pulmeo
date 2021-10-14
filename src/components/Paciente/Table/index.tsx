@@ -14,7 +14,7 @@ import Link from '@components/Link';
 
 function PacientesTable({ pacientes }) {
   return (
-    <Table bg="white" maxW="container.md" w="100%" rounded="lg" mb={8}>
+    <Table bg="white" maxW="container.md" w="full" rounded="lg" mb={8}>
       <Thead>
         <Tr>
           <Th>paciente</Th>
