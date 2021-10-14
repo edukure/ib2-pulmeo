@@ -1,4 +1,7 @@
+import { ObjectId } from 'bson';
+
 interface Exame {
+  _id: ObjectId;
   id: string;
   data: Date;
   tipo: 'espirometria' | 'oximetria';

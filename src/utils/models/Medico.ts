@@ -1,10 +1,10 @@
-import Paciente from './Paciente';
+import { ObjectId } from 'bson';
 import Usuario from './Usuario';
 
 interface Medico extends Usuario {
   role: 'medico';
   crm: string;
-  pacientes: Pick<Paciente, 'nome' | 'id' | 'exameMaisRecente'>[];
+  pacientes: ObjectId[];
 }
 
 export default Medico;

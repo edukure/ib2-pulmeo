@@ -1,5 +1,5 @@
+import { ObjectId } from 'bson';
 import Exame from './Exame';
-import Medico from './Medico';
 import Usuario from './Usuario';
 
 interface Paciente extends Usuario {
@@ -13,7 +13,7 @@ interface Paciente extends Usuario {
   peso: number;
   altura: number;
   image: string;
-  responsaveis: Pick<Medico, 'nome' | 'id'>[];
+  responsaveis: ObjectId[];
   exames: Exame[];
   exameMaisRecente: {
     data: Date;
