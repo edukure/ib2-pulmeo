@@ -42,6 +42,7 @@ function Header({
       rounded="lg"
       p={0}
       pb={{ base: 4, sm: 2 }}
+      mb={8}
     >
       <Flex
         bg="#C9E5E6"

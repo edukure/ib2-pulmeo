@@ -27,7 +27,7 @@ function PacientesTable({ pacientes }) {
           <Link
             as={Tr}
             href={`/pacientes/${paciente.id}`}
-            key={paciente.name}
+            key={paciente.nome}
             fontSize="1.2rem"
             bg="white"
             _hover={{
@@ -40,11 +40,11 @@ function PacientesTable({ pacientes }) {
             <Td>
               <HStack spacing={4}>
                 <Avatar src={paciente.image} />
-                <Text>{paciente.name}</Text>
+                <Text>{paciente.nome}</Text>
               </HStack>
             </Td>
-            <Td>{paciente.lastRecord}</Td>
-            <Td>{paciente.recordType}</Td>
+            {/* <Td>{paciente.lastRecord}</Td>
+            <Td>{paciente.recordType}</Td> */}
           </Link>
         ))}
       </Tbody>

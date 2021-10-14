@@ -2,7 +2,7 @@ import { Box, Button, Stack, Heading, Text } from '@chakra-ui/react';
 
 function NovoExame() {
   return (
-    <Box p={4} w="100%" bg="white" maxW="container.md" my={8} rounded="lg">
+    <Box p={4} w="100%" bg="white" maxW="container.md" rounded="lg" mb={8}>
       <Heading as="h2" color="gray.600" fontSize="lg">
         Novo exame
       </Heading>

@@ -1,9 +1,15 @@
 import { connectToDatabase } from '@config/mongodb';
+import { ObjectId } from 'bson';
+import { userInfo } from 'os';
+import { unstable_renderSubtreeIntoContainer } from 'react-dom';
+import Medico from './models/Medico';
+import Paciente from './models/Paciente';
+import Usuario from './models/Usuario';
 
 export const getUserFromSession = async (session) => {
   const { db } = await connectToDatabase();
 
-  const { _id, ...rest } = await db
+  const { _id, role, ...rest } = await db
     .collection('users')
     .aggregate([
       {
@@ -19,18 +25,67 @@ export const getUserFromSession = async (session) => {
     ])
     .next();
 
-  const user: Partial<{ id: string; role: 'paciente' | 'medico' }> = {
+  if (role === 'paciente') {
+    return {
+      id: _id.toString(),
+      role,
+      ...rest,
+    } as Paciente;
+  }
+
+  return {
     id: _id.toString(),
+    role,
     ...rest,
-  };
-  return user;
+  } as Medico;
 };
 
-export const isResposibleFor = async (session, patientId) => {
+export const pegarPacientePorId = async (id) => {
+  const { db } = await connectToDatabase();
+  const { _id, ...user } = await db.collection('users').findOne({
+    _id: new ObjectId(id),
+  });
+
+  return { ...user, id: _id.toString() } as Paciente;
+};
+
+export const associarPaciente = async (
+  idMedico: string,
+  paciente: Paciente
+) => {
+  const { db } = await connectToDatabase();
+
+  // coloca o paciente na lista de pacientes
+  const response = await db.collection('users').updateOne(
+    {
+      _id: new ObjectId(idMedico),
+    },
+    {
+      $addToSet: { pacientes: new ObjectId(paciente.id) },
+    }
+  );
+
+  // coloca o medico como responsavel do paciente
+  await db.collection('users').updateOne(
+    {
+      _id: new ObjectId(paciente.id),
+    },
+    {
+      $addToSet: { responsaveis: new ObjectId(idMedico) },
+    }
+  );
+
+  return response;
+};
+
+// isso aqui provavelmente está errado
+export const podeAcessarPaciente = async (session): Promise<boolean> => {
   // verifcar se o medico tem o paciente na sua lista
   const { db } = await connectToDatabase();
 
-  const { _id, ...user } = await db
+  // é o paciente
+
+  let usuario = (await db
     .collection('users')
     .aggregate([
       {
@@ -40,13 +95,60 @@ export const isResposibleFor = async (session, patientId) => {
       },
       {
         $project: {
+          role: 1,
           pacientes: 1,
+          responsaveis: 1,
         },
       },
     ])
-    .next();
+    .next()) as Usuario;
 
-  // verificar se o paciente esta na lista
+  // if (usuario.role === 'medico') {
+  //   usuario = usuario as Medico;
+  //   return usuario.pacientes
+  // }
 
-  return { id: _id.toString(), ...user };
+  // if (usuario.role === 'paciente') {
+  // }
+
+  console.log('quem ta acessando', usuario);
+
+  return true;
+};
+
+export const pegarPacientes = async (idMedico) => {
+  const { db } = await connectToDatabase();
+
+  const response = (await db
+    .collection('users')
+    .aggregate([
+      {
+        $project: {
+          nome: 1,
+          id: 1,
+          image: 1,
+          role: 1,
+          responsaveis: 1,
+        },
+      },
+    ])
+    .toArray()) as Partial<
+    Pick<Paciente, '_id' | 'nome' | 'image' | 'role' | 'responsaveis'>
+  >[];
+
+  let pacientes = response.filter(
+    ({ role, responsaveis }) =>
+      role === 'paciente' &&
+      responsaveis
+        .map((responsavel) => responsavel.toString())
+        .includes(idMedico)
+  );
+
+  // remover role e converter id para string
+  pacientes = pacientes.map(({ _id, role, responsaveis, ...rest }) => ({
+    id: _id.toString(),
+    ...rest,
+  }));
+
+  return pacientes; // {id, image, nome}
 };

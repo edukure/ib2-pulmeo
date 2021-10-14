@@ -1,5 +1,6 @@
 import React from 'react';
 import { GetServerSideProps } from 'next';
+import { VStack } from '@chakra-ui/react';
 
 import PageWrapper from '@components/PageWrapper';
 import HeaderPaciente from '@components/Paciente/Header';
@@ -7,16 +8,21 @@ import ExamesTable from '@components/Paciente/ExamesTable';
 import NovoExame from '@components/Paciente/NovoExame';
 import { getSession } from 'next-auth/react';
 import { connectToDatabase } from '@config/mongodb';
-import { getUserFromSession } from '@utils/db';
+import {
+  getUserFromSession,
+  pegarPacientePorId,
+  podeAcessarPaciente,
+} from '@utils/db';
 
-function PacientesPage({ paciente }) {
+function PacientesPage({ paciente, role }) {
   return (
     <PageWrapper>
       {/*  cabeçalho com info do paciente */}
       <HeaderPaciente {...paciente} />
+
       {/*  Realizar novo exame oximetria ou espirometria */}
       {/*  renderizar condicionalmente se é paciente ou nao */}
-      <NovoExame />
+      {role === 'paciente' && <NovoExame />}
 
       {/*  listagem dos exames */}
       <ExamesTable exames={paciente.exames} idPaciente={paciente.id} />
@@ -39,9 +45,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     };
   }
 
-  const user = await getUserFromSession(session);
+  const { role, responsaveis, ...paciente } = await pegarPacientePorId(
+    query.idPaciente
+  );
 
-  if (user.id.toString() !== query.idPaciente) {
+  // TODO HERE
+  if (!podeAcessarPaciente(session)) {
     return {
       redirect: {
         destination: '/acesso-negado',
@@ -52,8 +61,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   return {
     props: {
+      role,
       paciente: {
-        ...user,
+        ...paciente,
         exames: [
           {
             id: 322,
