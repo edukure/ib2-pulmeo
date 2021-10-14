@@ -12,25 +12,26 @@ function ExamesTable({ exames, idPaciente }) {
         </Tr>
       </Thead>
       <Tbody>
-        {exames.map((exame) => (
-          <Link
-            as={Tr}
-            href={`/pacientes/${idPaciente}/${exame.id}`}
-            key={exame.id}
-            fontSize="1.2rem"
-            bg="white"
-            _hover={{
-              cursor: 'pointer',
-              transform: 'scale(1.01)',
-              bg: 'gray.100',
-            }}
-          >
-            <Td>
-              <Text>{exame.tipo}</Text>
-            </Td>
-            <Td>{exame.data}</Td>
-          </Link>
-        ))}
+        {exames &&
+          exames.map((exame) => (
+            <Link
+              as={Tr}
+              href={`/pacientes/${idPaciente}/${exame.id}`}
+              key={exame.id}
+              fontSize="1.2rem"
+              bg="white"
+              _hover={{
+                cursor: 'pointer',
+                transform: 'scale(1.01)',
+                bg: 'gray.100',
+              }}
+            >
+              <Td>
+                <Text>{exame.tipo}</Text>
+              </Td>
+              <Td>{exame.data}</Td>
+            </Link>
+          ))}
       </Tbody>
     </Table>
   );
