@@ -12,7 +12,17 @@ import {
 
 import Link from '@components/Link';
 
-function PacientesTable({ pacientes }) {
+export type Paciente = {
+  id: string;
+  image: string;
+  nome: string;
+};
+
+type PacientesTableProps = {
+  pacientes: Paciente[];
+};
+
+function PacientesTable({ pacientes }: PacientesTableProps) {
   return (
     <Table bg="white" maxW="container.md" w="full" rounded="lg" mb={8}>
       <Thead>

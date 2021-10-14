@@ -136,7 +136,7 @@ export const pegarPacientes = async (idMedico) => {
     Pick<Paciente, '_id' | 'nome' | 'image' | 'role' | 'responsaveis'>
   >[];
 
-  let pacientes = response.filter(
+  const pacientesDoMedico = response.filter(
     ({ role, responsaveis }) =>
       role === 'paciente' &&
       responsaveis
@@ -145,10 +145,12 @@ export const pegarPacientes = async (idMedico) => {
   );
 
   // remover role e converter id para string
-  pacientes = pacientes.map(({ _id, role, responsaveis, ...rest }) => ({
-    id: _id.toString(),
-    ...rest,
-  }));
+  const pacientes = pacientesDoMedico.map(
+    ({ _id, role, responsaveis, ...rest }) => ({
+      id: _id.toString(),
+      ...rest,
+    })
+  );
 
   return pacientes; // {id, image, nome}
 };

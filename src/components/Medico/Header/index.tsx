@@ -8,7 +8,13 @@ import {
   VStack,
 } from '@chakra-ui/react';
 
-function Header({ medico }) {
+import Medico from '@utils/models/Medico';
+
+type HeaderProps = {
+  medico: Pick<Medico, 'nome' | 'crm' | 'image'>;
+};
+
+function Header({ medico }: HeaderProps) {
   return (
     <Container
       maxW="container.md"
