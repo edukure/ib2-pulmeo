@@ -4,7 +4,7 @@ import { MongoDBAdapter } from '@next-auth/mongodb-adapter';
 import { connectToDatabase } from '@config/mongodb';
 
 export default async function auth(req, res) {
-  const { client } = await connectToDatabase();
+  const { db } = await connectToDatabase();
   return await NextAuth(req, res, {
     providers: [
       GoogleProvider({
@@ -14,7 +14,7 @@ export default async function auth(req, res) {
       // ...add more providers here
     ],
     adapter: MongoDBAdapter({
-      db: (await client).db('pulmeo'),
+      db: db,
     }),
     pages: {
       newUser: '/new-user', // New users will be directed here on first sign in (leave the property out if not of interest)

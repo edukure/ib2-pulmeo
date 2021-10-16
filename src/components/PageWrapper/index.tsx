@@ -1,9 +1,14 @@
-import { Flex, Box } from '@chakra-ui/react';
+import { Flex } from '@chakra-ui/react';
 import { signOut } from 'next-auth/react';
 
 function PageWrapper({ children, justifyContent = 'flex-start' }) {
   return (
-    <Flex bg="gray.200" justifyContent="center" minHeight="100vh">
+    <Flex
+      bg="gray.200"
+      justifyContent="center"
+      minHeight="100vh"
+      px={{ base: 2, md: 0 }}
+    >
       <Flex
         direction="column"
         alignItems="center"

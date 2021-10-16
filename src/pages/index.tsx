@@ -21,7 +21,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     return {
       redirect: {
         destination: '/login',
-        permanent: true,
+        permanent: false,
       },
     };
   }
@@ -47,6 +47,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
           ...tudoMenosPacientes,
           pacientes: infoPacientes,
         },
+        session,
       },
     };
   }

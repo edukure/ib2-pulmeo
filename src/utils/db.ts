@@ -103,14 +103,6 @@ export const podeAcessarPaciente = async (session): Promise<boolean> => {
     ])
     .next()) as Usuario;
 
-  // if (usuario.role === 'medico') {
-  //   usuario = usuario as Medico;
-  //   return usuario.pacientes
-  // }
-
-  // if (usuario.role === 'paciente') {
-  // }
-
   console.log('quem ta acessando', usuario);
 
   return true;
@@ -136,21 +128,25 @@ export const pegarPacientes = async (idMedico) => {
     Pick<Paciente, '_id' | 'nome' | 'image' | 'role' | 'responsaveis'>
   >[];
 
-  const pacientesDoMedico = response.filter(
-    ({ role, responsaveis }) =>
-      role === 'paciente' &&
-      responsaveis
-        .map((responsavel) => responsavel.toString())
-        .includes(idMedico)
-  );
+  console.log('reposn', response);
 
-  // remover role e converter id para string
-  const pacientes = pacientesDoMedico.map(
-    ({ _id, role, responsaveis, ...rest }) => ({
-      id: _id.toString(),
-      ...rest,
-    })
-  );
+  if (response.length > 0) {
+    const pacientesDoMedico = response.filter(
+      ({ role, responsaveis = [] }) =>
+        role === 'paciente' &&
+        responsaveis
+          .map((responsavel) => responsavel.toString())
+          .includes(idMedico)
+    );
 
-  return pacientes; // {id, image, nome}
+    // remover role e converter id para string
+    const pacientes = pacientesDoMedico.map(
+      ({ _id, role, responsaveis, ...rest }) => ({
+        id: _id.toString(),
+        ...rest,
+      })
+    );
+
+    return pacientes; // {id, image, nome}
+  }
 };
