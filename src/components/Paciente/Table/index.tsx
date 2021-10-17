@@ -14,8 +14,8 @@ import Link from '@components/Link';
 
 export type Paciente = {
   id: string;
-  image: string;
-  nome: string;
+  image?: string;
+  nome?: string;
 };
 
 type PacientesTableProps = {

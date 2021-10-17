@@ -1,8 +1,11 @@
-import { Button, Flex, Stack } from '@chakra-ui/react';
+import { Button, Flex, Stack, useDisclosure } from '@chakra-ui/react';
 
 import Header from '@components/Medico/Header';
-import PacientesTable, { Paciente } from '@components/Paciente/Table';
+import PacientesTable from '@components/Paciente/Table';
+import { BASE_URL } from '@config';
 import MedicoBase from '@utils/models/Medico';
+import { useState } from 'react';
+import ModalPacientes from '../ModalPacientes';
 
 const dummyItems = [
   {
@@ -43,29 +46,40 @@ type MedicoScreenProps = {
   medico: Medico;
 };
 
+type Paciente = {
+  nome?: string;
+  image?: string;
+  id: string;
+};
+
 function MedicoScreen({ medico }: MedicoScreenProps) {
-  const handleAssociar = async () => {
-    await fetch('http://localhost:3000/api/medico/associar-paciente', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ idPaciente: '61660fb59e62adaf559e8051' }),
-    });
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [pacientes, setPacientes] = useState<Paciente[]>(medico.pacientes);
+
+  const handleClose = async () => {
+    const resposta = await fetch(`${BASE_URL}/api/medico/pacientes/listar`);
+    if (resposta.ok) {
+      const pacientes = await resposta.json();
+      setPacientes(pacientes);
+    }
+    onClose();
   };
+
   return (
     <Stack w="full" spacing={8}>
       {/*  cabeçalho com info do médico */}
       <Header medico={medico} />
 
+      <ModalPacientes onClose={handleClose} isOpen={isOpen} />
+
       <Flex mb={8} justifyContent="center" w="full">
-        <Button colorScheme="teal" onClick={handleAssociar}>
+        <Button colorScheme="teal" onClick={onOpen}>
           Buscar Paciente
         </Button>
       </Flex>
 
       {/*  listagem dos pacientes */}
-      <PacientesTable pacientes={medico.pacientes} />
+      <PacientesTable pacientes={pacientes} />
     </Stack>
   );
 }

@@ -145,7 +145,9 @@ export const listarPacientes = async () => {
         },
       },
     ])
-    .toArray()) as Partial<Pick<Paciente, '_id' | 'nome' | 'image' | 'role'>>[];
+    .toArray()) as Partial<
+    Pick<Paciente, 'id' | '_id' | 'nome' | 'image' | 'role'>
+  >[];
 
   if (response.length > 0) {
     let pacientes = response.filter(({ role }) => role === 'paciente');

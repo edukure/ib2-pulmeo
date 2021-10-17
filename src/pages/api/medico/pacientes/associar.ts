@@ -1,6 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/react';
-import { connectToDatabase } from '@config/mongodb';
 import {
   associarPaciente,
   pegarPacientePorId,
@@ -29,6 +28,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   /* verificar se o paciente existe */
   const { idPaciente } = req.body;
+  console.log(idPaciente);
 
   const paciente = await pegarPacientePorId(idPaciente);
 
