@@ -5,7 +5,11 @@ import { getSession } from 'next-auth/react';
 import PageWrapper from '@components/PageWrapper';
 import PacienteScreen from '@components/Paciente/Screen';
 
-import { pegarPacientePorId, podeAcessarPaciente } from '@utils/db';
+import {
+  getUserFromSession,
+  pegarPacientePorId,
+  podeAcessarPaciente,
+} from '@utils/db';
 
 function PacientesPage({ paciente, role }) {
   return (
@@ -30,11 +34,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     };
   }
 
-  const { role, responsaveis, ...paciente } = await pegarPacientePorId(
-    query.idPaciente
-  );
+  const usuario = await getUserFromSession(session);
 
-  if (!podeAcessarPaciente(session)) {
+  if (!podeAcessarPaciente(usuario, query.idPaciente as string)) {
     return {
       redirect: {
         destination: '/acesso-negado',
@@ -43,8 +45,15 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     };
   }
 
+  const { responsaveis, ...paciente } = await pegarPacientePorId(
+    query.idPaciente
+  );
+
+  const { role } = usuario;
+
   return {
     props: {
+      session,
       role,
       paciente: {
         ...paciente,

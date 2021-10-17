@@ -1,6 +1,6 @@
 import { GetServerSideProps } from 'next';
 import { getSession } from 'next-auth/react';
-import { getUserFromSession, pegarPacientes } from '@utils/db';
+import { getUserFromSession, pegarPacientesDoMedico } from '@utils/db';
 
 import PageWrapper from '@components/PageWrapper';
 import MedicoScreen from '@components/Medico/Screen';
@@ -37,7 +37,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     };
   }
 
-  const infoPacientes = await pegarPacientes(user.id);
+  const infoPacientes = await pegarPacientesDoMedico(user.id);
 
   if (user.role === 'medico') {
     const { pacientes, ...tudoMenosPacientes } = user;

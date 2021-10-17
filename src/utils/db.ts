@@ -1,7 +1,6 @@
 import { connectToDatabase } from '@config/mongodb';
 import { ObjectId } from 'bson';
-import { userInfo } from 'os';
-import { unstable_renderSubtreeIntoContainer } from 'react-dom';
+
 import Medico from './models/Medico';
 import Paciente from './models/Paciente';
 import Usuario from './models/Usuario';
@@ -78,37 +77,19 @@ export const associarPaciente = async (
   return response;
 };
 
-// isso aqui provavelmente está errado
-export const podeAcessarPaciente = async (session): Promise<boolean> => {
-  // verifcar se o medico tem o paciente na sua lista
-  const { db } = await connectToDatabase();
+//mudar isso pra outro arquivo dps
+export const podeAcessarPaciente = (
+  usuario: Paciente | Medico,
+  idPaciente: string
+) => {
+  if (usuario.role === 'paciente') {
+    return usuario.id === idPaciente;
+  }
 
-  // é o paciente
-
-  let usuario = (await db
-    .collection('users')
-    .aggregate([
-      {
-        $match: {
-          email: session.user.email,
-        },
-      },
-      {
-        $project: {
-          role: 1,
-          pacientes: 1,
-          responsaveis: 1,
-        },
-      },
-    ])
-    .next()) as Usuario;
-
-  console.log('quem ta acessando', usuario);
-
-  return true;
+  return usuario.pacientes.map((id) => id.toString()).includes(idPaciente);
 };
 
-export const pegarPacientes = async (idMedico) => {
+export const pegarPacientesDoMedico = async (idMedico: string) => {
   const { db } = await connectToDatabase();
 
   const response = (await db
@@ -128,8 +109,6 @@ export const pegarPacientes = async (idMedico) => {
     Pick<Paciente, '_id' | 'nome' | 'image' | 'role' | 'responsaveis'>
   >[];
 
-  console.log('reposn', response);
-
   if (response.length > 0) {
     const pacientesDoMedico = response.filter(
       ({ role, responsaveis = [] }) =>
@@ -146,6 +125,36 @@ export const pegarPacientes = async (idMedico) => {
         ...rest,
       })
     );
+
+    return pacientes; // {id, image, nome}
+  }
+};
+
+export const listarPacientes = async () => {
+  const { db } = await connectToDatabase();
+
+  const response = (await db
+    .collection('users')
+    .aggregate([
+      {
+        $project: {
+          nome: 1,
+          id: 1,
+          image: 1,
+          role: 1,
+        },
+      },
+    ])
+    .toArray()) as Partial<Pick<Paciente, '_id' | 'nome' | 'image' | 'role'>>[];
+
+  if (response.length > 0) {
+    let pacientes = response.filter(({ role }) => role === 'paciente');
+
+    // remover role e converter id para string
+    pacientes = pacientes.map(({ _id, role, ...rest }) => ({
+      id: _id.toString(),
+      ...rest,
+    }));
 
     return pacientes; // {id, image, nome}
   }
