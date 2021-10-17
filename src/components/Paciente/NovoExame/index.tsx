@@ -1,4 +1,5 @@
 import { Box, Button, Stack, Heading, Text } from '@chakra-ui/react';
+import Link from '@components/Link';
 
 function NovoExame() {
   return (
@@ -10,28 +11,32 @@ function NovoExame() {
         direction={{ base: 'column', sm: 'row' }}
         h={{ base: 'auto', sm: 40 }}
         mt={2}
-        w="full"
+        minW="full"
       >
         <Button
+          as={Link}
+          href={'/exames/espirometria'}
           colorScheme="teal"
           minH={{ base: 24, sm: 16 }}
-          w="full"
+          h="full"
+          isFullWidth
           justifyContent="center"
           alignItems="center"
         >
           <Text>Espirometria</Text>
         </Button>
         <Button
+          as={Link}
+          href={'/exames/oximetria'}
           colorScheme="orange"
           minH={{ base: 24, sm: 16 }}
-          w="full"
+          isFullWidth
+          h="full"
           justifyContent="center"
           alignItems="center"
         >
           <Text>Oximetria</Text>
         </Button>
-
-        <Box w={{ base: '100%', sm: '50%' }}></Box>
       </Stack>
     </Box>
   );
