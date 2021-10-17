@@ -14,6 +14,8 @@ import {
 import { useSession } from 'next-auth/react';
 import Router from 'next/router';
 
+import { BASE_URL } from '@config';
+
 type Paciente = {
   nome: string;
   teveCovid: boolean;
@@ -62,7 +64,7 @@ function Questionario() {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const response = await fetch('http://localhost:3000/api/update-userinfo', {
+    const response = await fetch(`${BASE_URL}/api/update-userinfo`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

@@ -4,6 +4,7 @@ import { useSession } from 'next-auth/react';
 import Router from 'next/router';
 
 import Medico from '@utils/models/Medico';
+import { BASE_URL } from '@config';
 
 type DTO = Pick<Medico, 'nome' | 'crm' | 'role'>;
 
@@ -30,7 +31,7 @@ function Questionario() {
 
     console.log('submitting');
 
-    const response = await fetch('http://localhost:3000/api/update-userinfo', {
+    const response = await fetch(`${BASE_URL}/api/update-userinfo`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
