@@ -73,7 +73,7 @@ function OximetriaScreen({ id, nome }: OximetriaScreenProps) {
 
       <Passos ativo={activeStep} />
 
-      <VStack w="full" h="full" pb={4} px={2}>
+      <VStack w="full" h="full" pb={4} px={2} fontSize="1.5rem">
         {listaPassos[activeStep].componente}
 
         {connectionStatus === 'connecting' && (
@@ -116,7 +116,7 @@ function OximetriaScreen({ id, nome }: OximetriaScreenProps) {
             onClick={handleAvancar}
             w="full"
             colorScheme="teal"
-            disabled={connectionStatus !== 'connected' && activeStep === 2}
+            // disabled={connectionStatus !== 'connected' && activeStep === 2}
           >
             Avançar
           </Button>
