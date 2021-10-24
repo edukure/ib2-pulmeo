@@ -4,6 +4,9 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 
+type ConnectionStatus = 'disconnected' | 'connecting' | 'connected';
+type Status = 'idle' | 'reading';
+
 function useBluetooth(deviceName, bleService, bleCharacteristic) {
   const [values, setValues] = useState<
     { id: number; value: number | string }[]
@@ -11,7 +14,8 @@ function useBluetooth(deviceName, bleService, bleCharacteristic) {
   const [bluetoothDevice, setBluetoothDevice] = useState<BluetoothDevice>(null);
   const [gattCharacteristic, setGattCharacteristic] =
     useState<BluetoothRemoteGATTCharacteristic>(null);
-  const [isReady, setIsReady] = useState(false);
+  const [connectionStatus, setConnectionStatus] =
+    useState<ConnectionStatus>('disconnected');
 
   const dataCount = useRef(0);
 
@@ -45,12 +49,12 @@ function useBluetooth(deviceName, bleService, bleCharacteristic) {
       filters: [{ name: deviceName }],
     };
 
-    // change to status?
     console.log('Requesting any Bluetooth Device...');
     if (!isWebBluetoothEnabled()) return null;
 
     const device = await navigator.bluetooth?.requestDevice(options);
     if (!device) {
+      setConnectionStatus('disconnected');
       return null;
     }
     setBluetoothDevice(device);
@@ -62,6 +66,7 @@ function useBluetooth(deviceName, bleService, bleCharacteristic) {
   */
   useEffect(() => {
     if (bluetoothDevice) {
+      setConnectionStatus('connecting');
       connectGATT();
     }
   }, [bluetoothDevice]);
@@ -72,7 +77,7 @@ function useBluetooth(deviceName, bleService, bleCharacteristic) {
   */
   useEffect(() => {
     if (gattCharacteristic) {
-      setIsReady(true);
+      setConnectionStatus('connected');
     }
   }, [gattCharacteristic]);
 
@@ -86,9 +91,9 @@ function useBluetooth(deviceName, bleService, bleCharacteristic) {
     const characteristic = await primaryService.getCharacteristic(
       bleCharacteristic
     );
-    // characteristic.addEventListener('characteristicvaluechanged', handleChangedValue);
+
     setGattCharacteristic(characteristic);
-  }, [bluetoothDevice, gattCharacteristic]);
+  }, [bluetoothDevice, gattCharacteristic, connectionStatus]);
 
   const read = useCallback(async () => {
     if (bluetoothDevice?.gatt.connected && !gattCharacteristic) {
@@ -115,7 +120,7 @@ function useBluetooth(deviceName, bleService, bleCharacteristic) {
   }, []);
 
   const start = useCallback(async () => {
-    if (isReady) {
+    if (connectionStatus === 'connected') {
       gattCharacteristic.addEventListener(
         'characteristicvaluechanged',
         handleChangedValue
@@ -125,12 +130,16 @@ function useBluetooth(deviceName, bleService, bleCharacteristic) {
     } else {
       console.log('not ready');
     }
-  }, [gattCharacteristic, isReady, handleChangedValue]);
+  }, [gattCharacteristic, connectionStatus, handleChangedValue]);
 
   const stop = useCallback(async () => {
     await gattCharacteristic.stopNotifications();
-    console.log('Stop reading...');
   }, [gattCharacteristic]);
+
+  const disconnect = useCallback(async () => {
+    bluetoothDevice?.gatt?.disconnect();
+    setConnectionStatus('disconnected');
+  }, [bluetoothDevice]);
 
   return {
     values,
@@ -139,7 +148,9 @@ function useBluetooth(deviceName, bleService, bleCharacteristic) {
     start,
     stop,
     isWebBluetoothEnabled,
-    isReady,
+    bluetoothDevice,
+    disconnect,
+    connectionStatus,
   };
 }
 

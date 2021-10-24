@@ -7,7 +7,7 @@ function PageWrapper({ children, justifyContent = 'flex-start' }) {
       bg="gray.200"
       justifyContent="center"
       minHeight="100vh"
-      px={{ base: 2, md: 0 }}
+      p={{ base: 2, md: 0 }}
     >
       <Flex
         direction="column"

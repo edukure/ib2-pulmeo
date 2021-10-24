@@ -32,7 +32,7 @@ function Questionario() {
   const [pacienteInfo, setPacienteInfo] = useState<Paciente>({
     nome: session.user.name,
     teveCovid: false,
-    fumante: true,
+    fumante: false,
     doencaRespiratoria: '',
     idade: 18,
     peso: 0,
