@@ -1,4 +1,6 @@
 import { VStack, Heading } from '@chakra-ui/react';
+import { useRouter } from 'next/router';
+import Coleta from '@components/Exames/Coleta';
 
 import useBluetooth from '@hooks/useBluetooth';
 import { useState } from 'react';
@@ -18,6 +20,7 @@ type OximetriaScreenProps = {
 type Etapa = 'instrucoes' | 'coleta' | 'fim';
 
 function OximetriaScreen({ id, nome }: OximetriaScreenProps) {
+  const router = useRouter();
   const { start, stop, values, getDeviceInfo, connectionStatus, disconnect } =
     useBluetooth(
       'Pulmeo - Oximetro',
@@ -37,7 +40,8 @@ function OximetriaScreen({ id, nome }: OximetriaScreenProps) {
       rounded="lg"
       border="3px solid"
       borderColor="teal.500"
-      h="100%"
+      h="full"
+      w="full"
       spacing={4}
     >
       <Heading bg="teal.500" w="full" color="white" textAlign="center" py={2}>
@@ -50,17 +54,22 @@ function OximetriaScreen({ id, nome }: OximetriaScreenProps) {
           handleConectarBluetooth={handleConectarBluetooth}
           handleFim={() => {
             setEtapa('coleta');
+
+            start();
           }}
         />
       )}
 
       {etapa === 'coleta' && (
-        <Instrucoes
-          connectionStatus={connectionStatus}
-          handleConectarBluetooth={handleConectarBluetooth}
-          handleFim={() => {
-            setEtapa('coleta');
+        <Coleta
+          handleConcluir={() => {
+            router.push(`/pacientes/${id}`);
           }}
+          handleFimDaColeta={async () => {
+            await stop();
+            await disconnect();
+          }}
+          values={values}
         />
       )}
     </VStack>

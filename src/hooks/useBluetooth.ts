@@ -105,8 +105,7 @@ function useBluetooth(deviceName, bleService, bleCharacteristic) {
 
   const handleChangedValue = useCallback((event) => {
     const decodedString = new TextDecoder().decode(event.target.value.buffer);
-    const resultFromSplit = decodedString.split(';');
-
+    const resultFromSplit = decodedString.split(';').slice(0, -1);
     const mappedValues = resultFromSplit.map((value) => {
       const id = dataCount.current;
       dataCount.current += 1;
