@@ -24,19 +24,12 @@ type OximetriaScreenProps = {
 // Descriptor fc3cca29-fc97-420c-9bd0-39485cdcdbbc
 
 function OximetriaScreen({ id, nome }: OximetriaScreenProps) {
-  const {
-    start,
-    stop,
-    values,
-    getDeviceInfo,
-    bluetoothDevice,
-    connectionStatus,
-    disconnect,
-  } = useBluetooth(
-    'Pulmeo - Oximetro',
-    'df40b603-33dd-4d59-bb53-aef20c08ee67',
-    'f89bcd15-58d3-4465-a240-e6420b3ede5e'
-  );
+  const { start, stop, values, getDeviceInfo, connectionStatus, disconnect } =
+    useBluetooth(
+      'Pulmeo - Oximetro',
+      'df40b603-33dd-4d59-bb53-aef20c08ee67',
+      'f89bcd15-58d3-4465-a240-e6420b3ede5e'
+    );
 
   const { nextStep, prevStep, activeStep } = useSteps({
     initialStep: 0,
