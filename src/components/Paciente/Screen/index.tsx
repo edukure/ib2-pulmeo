@@ -10,10 +10,9 @@ import {
 } from '@chakra-ui/react';
 
 import HeaderPaciente from '@components/Paciente/Header';
-import ExamesTable from '@components/Paciente/ExamesTable';
-import NovoExame from '@components/Paciente/NovoExame';
 import Paciente from '@utils/models/Paciente';
 import PanelOximetria from '../PanelOximetria';
+import PanelEspirometria from '../PanelEspirometria';
 
 type PacienteScreenProps = {
   role: 'paciente' | 'medico';
@@ -25,10 +24,6 @@ function PacienteScreen({ paciente, role }: PacienteScreenProps) {
     <Stack w="full" spacing={8}>
       {/*  cabeçalho com info do paciente */}
       <HeaderPaciente {...paciente} />
-
-      {/*  Realizar novo exame oximetria ou espirometria */}
-      {/*  renderizar condicionalmente se é paciente ou nao */}
-      {/* {role === 'paciente' && <NovoExame />} */}
 
       {/*  listagem dos exames */}
       <Box
@@ -69,7 +64,27 @@ function PacienteScreen({ paciente, role }: PacienteScreenProps) {
               />
             </TabPanel>
             <TabPanel>
-              <p>two!</p>
+              <PanelEspirometria
+                idPaciente={paciente.id}
+                exames={[
+                  {
+                    id: '1',
+                    fev: 98,
+                    data: new Date(),
+                  },
+                  {
+                    id: '2',
+                    fev: 88,
+                    data: new Date(),
+                  },
+                  {
+                    id: '3',
+                    fev: 93,
+                    data: new Date(),
+                  },
+                ]}
+                role={role}
+              />
             </TabPanel>
           </TabPanels>
         </Tabs>

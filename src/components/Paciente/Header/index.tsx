@@ -50,7 +50,7 @@ function Header({
         alignItems="center"
         justifyContent="center"
       >
-        <Image src="/pulmeo-logo.png" width="250px" alt="logo pulmeo" />
+        <Image src="/pulmeo-logo.png" height={32} alt="logo pulmeo" />
       </Flex>
 
       <Stack
@@ -72,7 +72,7 @@ function Header({
             borderColor="white"
             marginTop={-10}
           />
-          <Box>
+          <Box textAlign={{ base: 'center', sm: 'left' }}>
             <Heading as="h2" fontSize="2xl" bg="white">
               {nome}, {idade}
             </Heading>

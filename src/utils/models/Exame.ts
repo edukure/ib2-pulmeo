@@ -9,15 +9,18 @@ interface Exame {
 }
 
 export interface Espirometria {
-  leituras: number[];
-  valorMedio: number;
+  dados: {
+    fluxo: number[];
+    volume: number[];
+    fluxoPorVolume: number[];
+  };
+  vef1: number;
+  fluxoMaximo: number;
 }
 
 export interface Oximetria {
   leituras: number[];
-  valorMedio: number;
-  valorMaximo: number;
-  valorMinimo: number;
+  spo2: number;
 }
 
 export default Exame;

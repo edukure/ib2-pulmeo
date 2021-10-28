@@ -5,7 +5,9 @@ import Medico from './models/Medico';
 import Paciente from './models/Paciente';
 import Usuario from './models/Usuario';
 
-export const getUserFromSession = async (session) => {
+export const getUserFromSession = async (
+  session
+): Promise<Medico | Paciente> => {
   const { db } = await connectToDatabase();
 
   const { _id, role, ...rest } = await db
