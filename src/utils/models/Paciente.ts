@@ -14,7 +14,7 @@ interface Paciente extends Usuario {
   altura: number;
   image: string;
   responsaveis?: ObjectId[];
-  exames?: Exame[];
+  exames?: any;
   exameMaisRecente?: {
     data: Date;
     tipo: 'oximetria' | 'espirometria ';

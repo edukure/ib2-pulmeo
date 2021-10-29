@@ -39,7 +39,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   };
 
   const volume = converterFluxoParaVolume(data);
-  const espirometria: Espirometria = {
+  const espirometria = {
     dados: {
       fluxo: data,
       volume,

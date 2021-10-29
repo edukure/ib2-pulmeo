@@ -13,6 +13,9 @@ type chartData = {
 };
 
 export interface Espirometria {
+  id: string;
+  data: Date;
+  tipo: 'espirometria';
   dados: {
     fluxo: chartData[];
     volume: chartData[];
