@@ -2,11 +2,11 @@ import { useState } from 'react';
 import { VStack, Heading } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 
-import Coleta from '@components/Exames/Oximetria/Coleta';
+import Coleta from '@components/Exames/Espirometria/Coleta';
 import useBluetooth from '@hooks/useBluetooth';
 import Instrucoes from '../Instrucoes';
 
-type OximetriaScreenProps = {
+type EspirometriaScreenProps = {
   id: string;
   nome: string;
 };
@@ -19,11 +19,11 @@ type OximetriaScreenProps = {
 
 type Etapa = 'instrucoes' | 'coleta' | 'fim';
 
-function OximetriaScreen({ id, nome }: OximetriaScreenProps) {
+function EspirometriaScreen({ id, nome }: EspirometriaScreenProps) {
   const router = useRouter();
   const { start, stop, values, getDeviceInfo, connectionStatus, disconnect } =
     useBluetooth(
-      'Pulmeo - Oximetro',
+      'Pulmeo - Espirometro',
       'df40b603-33dd-4d59-bb53-aef20c08ee67',
       'f89bcd15-58d3-4465-a240-e6420b3ede5e'
     );
@@ -45,7 +45,7 @@ function OximetriaScreen({ id, nome }: OximetriaScreenProps) {
       spacing={4}
     >
       <Heading bg="teal.500" w="full" color="white" textAlign="center" py={2}>
-        Oximetria
+        Espirometria
       </Heading>
 
       {etapa === 'instrucoes' && (
@@ -68,7 +68,9 @@ function OximetriaScreen({ id, nome }: OximetriaScreenProps) {
           handleFimDaColeta={async () => {
             await stop();
             await disconnect();
+            //POST to db
           }}
+          //debug purposes only
           values={values}
         />
       )}
@@ -76,4 +78,4 @@ function OximetriaScreen({ id, nome }: OximetriaScreenProps) {
   );
 }
 
-export default OximetriaScreen;
+export default EspirometriaScreen;
