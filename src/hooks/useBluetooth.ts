@@ -8,9 +8,7 @@ type ConnectionStatus = 'disconnected' | 'connecting' | 'connected';
 type Status = 'idle' | 'reading';
 
 function useBluetooth(deviceName, bleService, bleCharacteristic) {
-  const [values, setValues] = useState<
-    { id: number; value: number | string }[]
-  >([]);
+  const [values, setValues] = useState<{ id: number; value: string }[]>([]);
   const [bluetoothDevice, setBluetoothDevice] = useState<BluetoothDevice>(null);
   const [gattCharacteristic, setGattCharacteristic] =
     useState<BluetoothRemoteGATTCharacteristic>(null);

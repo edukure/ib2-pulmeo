@@ -27,7 +27,6 @@ function Instrucoes({
 
     if (activeStep === listaPassos.length - 1) {
       handleFim();
-      console.log('fim');
     }
   };
 
@@ -84,7 +83,7 @@ function Instrucoes({
             onClick={handleAvancar}
             w="full"
             colorScheme="teal"
-            disabled={connectionStatus !== 'connected' && activeStep === 2}
+            // disabled={connectionStatus !== 'connected' && activeStep === 2}
           >
             {activeStep === listaPassos.length - 1 ? 'Iniciar' : 'Avançar'}
           </Button>

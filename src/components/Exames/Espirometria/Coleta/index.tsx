@@ -91,6 +91,7 @@ const TimerRelaxar = ({ onComplete }) => {
 function Coleta({ handleFimDaColeta, handleConcluir, values }: ColetaProps) {
   const [contagem, setContagem] = useState(0);
   const acabou = contagem === 3;
+  if (acabou) handleFimDaColeta();
 
   const [estado, setEstado] = useState<
     'inspirando' | 'expirando' | 'relaxando'
