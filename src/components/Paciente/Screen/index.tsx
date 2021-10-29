@@ -11,6 +11,7 @@ import {
 
 import HeaderPaciente from '@components/Paciente/Header';
 import Paciente from '@utils/models/Paciente';
+import { Oximetria } from '@utils/models/Exame';
 import PanelOximetria from '../PanelOximetria';
 import PanelEspirometria from '../PanelEspirometria';
 
@@ -43,46 +44,31 @@ function PacienteScreen({ paciente, role }: PacienteScreenProps) {
           <TabPanels>
             <TabPanel>
               <PanelOximetria
-                exames={[
-                  {
-                    id: '1',
-                    spo2: 98,
-                    data: new Date(),
-                  },
-                  {
-                    id: '2',
-                    spo2: 88,
-                    data: new Date(),
-                  },
-                  {
-                    id: '3',
-                    spo2: 93,
-                    data: new Date(),
-                  },
-                ]}
+                // exames={[
+                //   {
+                //     id: '1',
+                //     spo2: 98,
+                //     data: new Date(),
+                //   },
+                //   {
+                //     id: '2',
+                //     spo2: 88,
+                //     data: new Date(),
+                //   },
+                //   {
+                //     id: '3',
+                //     spo2: 93,
+                //     data: new Date(),
+                //   },
+                // ]}
+                exames={paciente.exames ?? undefined}
                 role={role}
               />
             </TabPanel>
             <TabPanel>
               <PanelEspirometria
                 idPaciente={paciente.id}
-                exames={[
-                  {
-                    id: '1',
-                    fev: 98,
-                    data: new Date(),
-                  },
-                  {
-                    id: '2',
-                    fev: 88,
-                    data: new Date(),
-                  },
-                  {
-                    id: '3',
-                    fev: 93,
-                    data: new Date(),
-                  },
-                ]}
+                exames={[]}
                 role={role}
               />
             </TabPanel>

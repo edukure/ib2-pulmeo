@@ -146,9 +146,9 @@ function Coleta({ handleFimDaColeta, handleConcluir, values }: ColetaProps) {
         </>
       )}
 
-      <UnorderedList>
+      {/* <UnorderedList>
         {values && values.map((v) => <ListItem key={v.id}>{v.value}</ListItem>)}
-      </UnorderedList>
+      </UnorderedList> */}
     </VStack>
   );
 }

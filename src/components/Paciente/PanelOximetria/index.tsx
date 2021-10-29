@@ -12,17 +12,14 @@ import {
 
 import { AddIcon } from '@chakra-ui/icons';
 import Link from '@components/Link';
+import { Oximetria } from '@utils/models/Exame';
 
 type PanelOximetriaProps = {
-  exames: {
-    id: string;
-    spo2: number;
-    data: Date;
-  }[];
+  exames: Oximetria[];
   role: 'paciente' | 'medico';
 };
 
-function PanelOximetria({ exames, role }: PanelOximetriaProps) {
+function PanelOximetria({ exames = [], role }: PanelOximetriaProps) {
   return (
     <Stack spacing={4} alignItems="center">
       {role === 'paciente' && (
@@ -35,16 +32,18 @@ function PanelOximetria({ exames, role }: PanelOximetriaProps) {
           Novo Exame
         </Button>
       )}
-      <Table bg="white" maxW="container.md" w="100%" rounded="lg" mb={8}>
-        <Thead>
-          <Tr>
-            <Th>SpO2 (%)</Th>
-            <Th>data</Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          {exames &&
-            exames.map((exame) => (
+      {exames.length === 0 && <Text color="gray.500">Sem registros</Text>}
+      {exames.length > 0 && (
+        <Table bg="white" maxW="container.md" w="100%" rounded="lg" mb={8}>
+          <Thead>
+            <Tr>
+              <Th>SpO2 (%)</Th>
+              <Th>data</Th>
+            </Tr>
+          </Thead>
+
+          <Tbody>
+            {exames.map((exame) => (
               <Tr
                 key={exame.id}
                 fontSize="1.2rem"
@@ -55,13 +54,14 @@ function PanelOximetria({ exames, role }: PanelOximetriaProps) {
                 }}
               >
                 <Td w="50%">
-                  <Text>{exame.spo2}</Text>
+                  <Text>{exame.detalhes.spo2.toFixed(1)}%</Text>
                 </Td>
-                <Td>{exame.data.toLocaleDateString()}</Td>
+                <Td>{new Date(exame.data).toLocaleString()}</Td>
               </Tr>
             ))}
-        </Tbody>
-      </Table>
+          </Tbody>
+        </Table>
+      )}
     </Stack>
   );
 }

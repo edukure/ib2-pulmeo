@@ -45,7 +45,7 @@ function PanelEspirometria({ idPaciente, exames, role }: PanelEspirometria) {
           </Tr>
         </Thead>
         <Tbody>
-          {exames &&
+          {/* {exames &&
             exames.map((exame) => (
               <Link
                 as={Tr}
@@ -63,7 +63,7 @@ function PanelEspirometria({ idPaciente, exames, role }: PanelEspirometria) {
                 </Td>
                 <Td>{exame.data.toLocaleDateString()}</Td>
               </Link>
-            ))}
+            ))} */}
           {Array.from({ length: 26 }).map((_, index) => (
             <Link
               as={Tr}

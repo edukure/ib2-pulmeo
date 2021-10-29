@@ -16,6 +16,10 @@ export type Paciente = {
   id: string;
   image?: string;
   nome?: string;
+  exameMaisRecente?: {
+    data: string;
+    tipo: 'expirometria' | 'oximetria';
+  };
 };
 
 type PacientesTableProps = {
@@ -53,8 +57,20 @@ function PacientesTable({ pacientes }: PacientesTableProps) {
                 <Text>{paciente.nome}</Text>
               </HStack>
             </Td>
-            {/* <Td>{paciente.lastRecord}</Td>
-            <Td>{paciente.recordType}</Td> */}
+
+            {paciente.exameMaisRecente ? (
+              <>
+                <Td>
+                  {new Date(paciente.exameMaisRecente.data).toLocaleString()}
+                </Td>
+                <Td>{paciente.exameMaisRecente.tipo}</Td>
+              </>
+            ) : (
+              <>
+                <Td>sem registro</Td>
+                <Td></Td>
+              </>
+            )}
           </Link>
         ))}
       </Tbody>

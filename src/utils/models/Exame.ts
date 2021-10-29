@@ -1,7 +1,6 @@
 import { ObjectId } from 'bson';
 
 interface Exame {
-  _id: ObjectId;
   id: string;
   data: Date;
   tipo: 'espirometria' | 'oximetria';
@@ -12,6 +11,7 @@ type chartData = {
   value: number;
   index: number;
 };
+
 export interface Espirometria {
   dados: {
     fluxo: chartData[];
@@ -24,8 +24,12 @@ export interface Espirometria {
 }
 
 export interface Oximetria {
-  leituras: number[];
-  spo2: number;
+  id: string;
+  data: Date;
+  tipo: 'oximetria';
+  detalhes: {
+    spo2: number;
+  };
 }
 
 export default Exame;

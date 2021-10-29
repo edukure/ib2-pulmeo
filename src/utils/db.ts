@@ -104,11 +104,15 @@ export const pegarPacientesDoMedico = async (idMedico: string) => {
           image: 1,
           role: 1,
           responsaveis: 1,
+          exameMaisRecente: 1,
         },
       },
     ])
     .toArray()) as Partial<
-    Pick<Paciente, '_id' | 'nome' | 'image' | 'role' | 'responsaveis'>
+    Pick<
+      Paciente,
+      '_id' | 'nome' | 'image' | 'role' | 'responsaveis' | 'exameMaisRecente'
+    >
   >[];
 
   if (response.length > 0) {

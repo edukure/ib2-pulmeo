@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import Coleta from '@components/Exames/Oximetria/Coleta';
 import useBluetooth from '@hooks/useBluetooth';
 import Instrucoes from '../Instrucoes';
+import { BASE_URL } from '@config';
 
 type OximetriaScreenProps = {
   id: string;
@@ -84,7 +85,20 @@ function OximetriaScreen({ id, nome }: OximetriaScreenProps) {
     await getDeviceInfo();
   };
 
-  useEffect(() => {}, []);
+  const adicionarExameAoPaciente = async (spo2) => {
+    const DTO = {
+      data: new Date(),
+      tipo: 'oximetria',
+      detalhes: {
+        spo2,
+      },
+    };
+
+    await fetch(`${BASE_URL}/api/paciente`, {
+      method: 'POST',
+      body: JSON.stringify(DTO),
+    });
+  };
 
   return (
     <VStack
@@ -116,9 +130,9 @@ function OximetriaScreen({ id, nome }: OximetriaScreenProps) {
             router.push(`/pacientes/${id}`);
           }}
           handleFimDaColeta={async (spo2) => {
-            // await stop();
-            // await disconnect();
-            console.log('valor q vai pra api', spo2);
+            await stop();
+            await disconnect();
+            await adicionarExameAoPaciente(spo2);
           }}
           handleIniciar={() => {
             start();

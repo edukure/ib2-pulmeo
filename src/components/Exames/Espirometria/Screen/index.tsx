@@ -23,7 +23,7 @@ function EspirometriaScreen({ id, nome }: EspirometriaScreenProps) {
   const router = useRouter();
   const { start, stop, values, getDeviceInfo, connectionStatus, disconnect } =
     useBluetooth(
-      'Pulmeo - Espirometro',
+      'Pulmeo - Espirometria',
       'df40b603-33dd-4d59-bb53-aef20c08ee67',
       'f89bcd15-58d3-4465-a240-e6420b3ede5e'
     );
