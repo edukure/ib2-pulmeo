@@ -54,8 +54,9 @@ function EspirometriaScreen({ id, nome }: EspirometriaScreenProps) {
           handleConectarBluetooth={handleConectarBluetooth}
           handleFim={() => {
             setEtapa('coleta');
-
-            start();
+            if (connectionStatus === 'connected') {
+              start();
+            }
           }}
         />
       )}
@@ -66,8 +67,10 @@ function EspirometriaScreen({ id, nome }: EspirometriaScreenProps) {
             router.push(`/pacientes/${id}`);
           }}
           handleFimDaColeta={async () => {
-            await stop();
-            await disconnect();
+            if (connectionStatus === 'connected') {
+              await stop();
+              await disconnect();
+            }
             //POST to db
           }}
           //debug purposes only

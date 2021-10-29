@@ -27,7 +27,6 @@ function Instrucoes({
 
     if (activeStep === listaPassos.length - 1) {
       handleFim();
-      console.log('fim');
     }
   };
 
@@ -66,7 +65,7 @@ function Instrucoes({
 
         {connectionStatus === 'connected' && activeStep === 2 && (
           <Tag px={4} py={2} colorScheme="messenger">
-            Oxímetro conectado!
+            Espirômetro conectado!
           </Tag>
         )}
 

@@ -79,7 +79,7 @@ export const listaPassos = [
           maxH={40}
         />
         <Text>
-          Espere X segundos para que a medição seja feita. Depois, retire o
+          Espere 5 segundos para que a medição seja feita. Depois, retire o
           sensor e desligue o aparelho.
         </Text>
       </VStack>
