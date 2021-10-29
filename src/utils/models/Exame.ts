@@ -8,14 +8,19 @@ interface Exame {
   detalhes: Espirometria | Oximetria;
 }
 
+type chartData = {
+  value: number;
+  index: number;
+};
 export interface Espirometria {
   dados: {
-    fluxo: number[];
-    volume: number[];
-    fluxoPorVolume: number[];
+    fluxo: chartData[];
+    volume: chartData[];
+    fluxoPorVolume?: chartData[];
   };
-  vef1: number;
-  fluxoMaximo: number;
+  vef1?: number;
+  fluxoMaximo: chartData;
+  capacidadeVital: number;
 }
 
 export interface Oximetria {

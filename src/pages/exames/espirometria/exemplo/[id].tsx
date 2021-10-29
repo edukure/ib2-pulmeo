@@ -1,5 +1,4 @@
 import { GetStaticProps } from 'next';
-
 import fs from 'fs';
 import path from 'path';
 
@@ -7,9 +6,14 @@ import { BASE_URL } from '@config';
 
 import PageWrapper from '@components/PageWrapper';
 import EspirometriaScreen from '@components/Paciente/EspirometriaScreen';
+import {
+  converterFluxoParaVolume,
+  getVef1,
+  getPontoMaximo,
+} from '@utils/espirometria';
+import { Espirometria } from '@utils/models/Exame';
 
-function EspirometriaExemploPage({ data, paciente, exemplo }) {
-  console.log(data);
+function EspirometriaExemploPage({ data, paciente }) {
   return (
     <PageWrapper>
       <EspirometriaScreen data={data} paciente={paciente} />
@@ -33,8 +37,22 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     fumante: false,
     idade: 23,
   };
+
+  const volume = converterFluxoParaVolume(data);
+  const espirometria: Espirometria = {
+    dados: {
+      fluxo: data,
+      volume,
+    },
+    vef1: getVef1(data),
+    fluxoMaximo: getPontoMaximo(data),
+    capacidadeVital: volume[volume.length - 1].value,
+  };
   return {
-    props: { data, paciente: pacienteFalso },
+    props: {
+      data: espirometria,
+      paciente: pacienteFalso,
+    },
   };
 };
 

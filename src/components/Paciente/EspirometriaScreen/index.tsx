@@ -1,6 +1,18 @@
 import React from 'react';
-import { Table, Thead, Tr, Th, Tbody, Td, Text, Stack } from '@chakra-ui/react';
+import {
+  Table,
+  Thead,
+  Tr,
+  Th,
+  Tbody,
+  Td,
+  Text,
+  Stack,
+  Box,
+} from '@chakra-ui/react';
 import Header from '@components/Paciente/Header';
+import GraficoFluxo from '../Graficos/Fluxo';
+import GraficoVolume from '../Graficos/Volume';
 
 // data = {
 //   dados: [
@@ -14,8 +26,9 @@ import Header from '@components/Paciente/Header';
 // }
 
 function EspirometriaScreen({ data, paciente }) {
+  const { dados, fluxoMaximo, vef1, capacidadeVital } = data;
   return (
-    <Stack w="full" spacing={8}>
+    <Stack w="full" spacing={8} pb={16}>
       <Header {...paciente} />
 
       {/* Tabela com informações fluxo maximo, volume total, fev1*/}
@@ -29,19 +42,38 @@ function EspirometriaScreen({ data, paciente }) {
         </Thead>
         <Tbody>
           <Td>
-            <Text>{0} L/min</Text>
+            <Text>{(fluxoMaximo.value * 60).toFixed(2)} L/min</Text>
           </Td>
           <Td>
-            <Text>{0} L</Text>
+            <Text>{capacidadeVital.toFixed(2)} L</Text>
           </Td>
           <Td>
-            <Text>{0} L</Text>
+            <Text>{vef1.toFixed(2)} L</Text>
           </Td>
         </Tbody>
       </Table>
 
       {/* Grafico Fluxo x Tempo */}
+      <Box
+        bg="white"
+        rounded="lg"
+        py={4}
+        display="flex"
+        justifyContent="center"
+      >
+        <GraficoFluxo fluxo={dados.fluxo} maximo={fluxoMaximo} />
+      </Box>
+
       {/* Grafico Volume x Tempo */}
+      <Box
+        bg="white"
+        rounded="lg"
+        py={4}
+        display="flex"
+        justifyContent="center"
+      >
+        <GraficoVolume volume={dados.volume} />
+      </Box>
       {/* Grafico Fluxo x Volume */}
     </Stack>
   );

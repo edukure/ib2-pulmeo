@@ -21,14 +21,17 @@ export default EspirometriaPage;
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const [idPaciente, idExame] = context.params.info as string[];
 
-  const session = await getSession(context);
+  // const session = await getSession(context);
 
-  const usuario = await getUserFromSession(session);
-  const { responsaveis, ...paciente } = await pegarPacientePorId(usuario.id);
-  // pegar exame individual
-  const data = [];
+  // const usuario = await getUserFromSession(session);
+  // const { responsaveis, ...paciente } = await pegarPacientePorId(usuario.id);
+  // // pegar exame individual
+  // const data = [];
 
+  // return {
+  //   props: { data, paciente },
+  // };
   return {
-    props: { data, paciente },
+    props: {},
   };
 };

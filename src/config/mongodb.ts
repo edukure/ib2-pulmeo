@@ -34,15 +34,19 @@ if (!dbName) {
  */
 export async function connectToDatabase(): Promise<DbConnection> {
   if (cachedClient && cachedDb) {
-    return { client: cachedClient, db: cachedDb };
+    return {
+      client: cachedClient,
+      db: cachedDb,
+    };
   }
 
-  const client = await MongoClient.connect(uri);
+  const client = new MongoClient(uri);
+  await client.connect();
 
-  const db = await client.db(dbName);
+  const db = client.db(dbName);
 
   cachedClient = client;
   cachedDb = db;
 
-  return { client, db };
+  return { client: cachedClient, db: cachedDb };
 }
