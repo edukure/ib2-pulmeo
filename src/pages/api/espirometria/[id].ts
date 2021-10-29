@@ -1,12 +1,16 @@
 import fs from 'fs';
 import path from 'path';
+import { BASE_URL } from '@config';
 
-export default (req, res) => {
+export default async (req, res) => {
   const { id } = req.query;
 
-  const dir = path.resolve('./public', 'espirometria', `${id}.txt`);
+  // const dir = path.resolve('./public', 'static', 'espirometria', `${id}.txt`);
 
-  const file = fs.readFileSync(dir, 'utf8');
+  const response = await fetch(`${BASE_URL}/static/espirometria/${id}.txt`);
+  const file = await response.text();
+
+  // const file = fs.readFileSync(dir, 'utf8');
 
   const values = file
     .split('\n')

@@ -57,14 +57,14 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 };
 
 export const getStaticPaths = async () => {
-  const dir = path.resolve('./public', 'espirometria');
-  const files = fs.readdirSync(dir, 'utf8');
+  // const dir = path.resolve('./public', 'espirometria');
+  // const files = fs.readdirSync(dir, 'utf8');
 
-  const paths = files
-    .map((file) => file.replace('.txt', ''))
-    .map((fileId) => ({
-      params: { id: fileId },
-    }));
+  // const paths = files
+  //   .map((file) => file.replace('.txt', ''))
+  //   .map((fileId) => ({
+  //     params: { id: fileId },
+  //   }));
 
   return {
     paths: [],
